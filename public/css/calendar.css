@@ -1,0 +1,155 @@
+@charset "UTF-8";
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    margin-bottom: 0;
+    padding-left: 10px;
+}
+
+p {
+    padding-left: 10px;
+}
+
+.frame {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+}
+
+.timeline {
+    flex: 0.9;
+}
+li {
+    display: block;
+    list-style: none;
+}
+
+/*postレイアウト始め*/
+
+.post {
+    box-sizing:content-box;
+    border: 1px solid;
+    border-color: #000000;
+}
+
+.post_top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.post_text {
+    margin-top: 0;
+    font-size: 20px;
+    background-color: #fff;
+}
+
+.workout {
+    margin-right: 30px;
+    margin-top: 10px;
+}
+.workout_font {
+    color: #fff;
+    background-color: #FD7A23;
+    padding: 5px;
+}
+
+
+/* 画像スライド */
+#slider {
+    /*max-width: 1100px;*/
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+
+#slider #prevImage,
+#slider #nextImage {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: .3%;
+    cursor: pointer;
+}
+
+#slider #prevImage {
+    left: 0;
+}
+
+#slider #nextImage {
+    right: 0;
+}
+
+#slider #prevImage::before,
+#slider #nextImage ::before{
+    font-size: 3px;
+    color: #555;
+}
+
+#slider #prevImage::hover,
+#slider #nextImage ::hover{
+    opacity: 0.5;
+}
+
+#slider img {
+    width: 100%;
+}
+
+
+
+/* サイドバー始め */
+.sidebar {
+    margin-left: auto;
+    width: 100px;
+}
+
+aside {
+    width: 100%;
+    box-sizing:content-box;
+    margin-top: 40vh;
+    text-align: left;
+    border: 1px solid;
+    border-color: #000000;
+    background-color: #EBEBEB;
+}
+
+.menu {
+    font-size: 15px;
+}
+
+.gmenu {
+    padding: 10px 10px;
+}
+
+ul.gmenu ul {
+    display: none;
+}
+
+ul.gmenu > li:hover ul {
+    display: block;
+    height: auto;
+    position: absolute;
+    background-color: #C2C2C2;
+    padding: 5px;
+    margin-left: 80px;
+    margin-top: -25px;
+}
+
+ul.gmenu ul > li {
+    display: block;
+    padding: 5px;
+}
+/* サイドバー終わり */
+
+.paginate {
+    width: 20%;
+    margin: 40px auto;
+}
+
+#calendar {
+    width: 80%;
+}
