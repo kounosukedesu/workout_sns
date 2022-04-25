@@ -11,6 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => ['auth']], function(){
+    Route::get('/', 'PostController@index');
+    Route::post('/posts', 'PostController@store');
+    Route::get('/posts/create', 'PostController@create');
+    Route::get('/posts/profile', 'PostController@profile');
+    Route::get('/posts/jsonprofile', 'PostController@json_profile');
+    Route::get('/posts/{post}', 'PostController@show');
+    Route::get('/posts/like/{id}', 'PostController@like')->name('post.like');
+    Route::get('/posts/unlike/{id}', 'PostController@unlike')->name('post.unlike');
+    Route::get('/categories/{workout}', 'WorkoutController@index');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
