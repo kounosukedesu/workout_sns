@@ -22,6 +22,7 @@ class CreatePostsTable extends Migration
             $table->string('movie')->nullable();
             $table->string('body', 800);
             $table->timestamps();
+            $table->softDeletes();
             
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('CASCADE')->onDelete('CASCADE');
         });

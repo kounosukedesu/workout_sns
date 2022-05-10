@@ -1,48 +1,63 @@
-// import $ from 'jquery';
-// import 'slick-carousel';
+//画像スライドの処理
 
-// $('.slider').slick({
-//     autoplay: false,
-//     infinite: true,
-//     slidesToShow: 1,
-//     slidesToScroll: 1,
-//     prevArrow: '<div class="slick-prev"></div>',//矢印部分PreviewのHTMLを変更
-// 	nextArrow: '<div class="slick-next"></div>',//矢印部分NextのHTMLを変更
-//     dots: true,
-    
-    
-// });
-import axios from "axios";
+const slideShow = function() {
 
-/* global $ */ 
-$(function() {
-const imageTotalNumber = 3;
-const sliderElement = document.getElementById('slider');
-const prevImageElement =document.getElementById('prevImage');
-const nextImageElement =document.getElementById('nextImage');
+    // 画像1枚以上3枚未満の時の処理
+    for(let itemIndex = 0 ; itemIndex < 3; itemIndex++) {
+        if( document.querySelectorAll('img')[itemIndex].getAttribute('src') === "") {
+            document.querySelectorAll('.slideShow ul.slider li')[itemIndex].remove();
+        } else {
+            document.querySelectorAll('.slideShow ul.slider li')[itemIndex].style.display = '';
+        }
+    }
 
-let currentSlideNumber = 1;
-sliderElement.setAttribute('src', '{{$post->image1}}');
+    const images = document.querySelectorAll('.slideShow ul.slider li'),
+          imagesLength = images.length -1,
+          next = document.querySelector('.slideShow .btn-next'),
+          prev = document.querySelector('.slideShow .btn-prev');
 
-for (let i = 0; i < imageTotalNumber; i++) {
-    const liElement = document.createElement('li');
-    liElement.style.backgroundImage = 'url({{$post->image[i + 1]}})';
-    
-    liElement.addEventListener('click', () => {
-        sliderElement.setAttribute('src,', '{{$post->image[i + 1]}}');
-    });
+    let cnt = 0;
+
+    function showNext() {
+        if(cnt >= imagesLength) {
+            cnt = 0;
+            images.item(cnt).classList.add('slider-item01');
+            images.item(imagesLength).classList.remove('slider-item01');
+        } else {
+            images.item(cnt).classList.remove('slider-item01');
+            images.item(cnt + 1).classList.add('slider-item01');
+            cnt += 1;
+        }
+    }
+
+    function showPrev() {
+        if(cnt === 0) {
+            images.item(cnt).classList.remove('slider-item01');
+            images.item(imagesLength).classList.add('slider-item01');
+            cnt = imagesLength;
+        } else {
+            images.item(cnt).classList.remove('slider-item01');
+            images.item(cnt - 1).classList.add('slider-item01');
+            cnt -= 1;
+        }
+    }
+
+    next.addEventListener( 'click', showNext );
+    prev.addEventListener( 'click', showPrev );
+
+};
+// 画像未保存の時の処理
+const img = document.querySelectorAll('img');
+if(img[0].getAttribute('src') === ""
+    && img[1].getAttribute('src') === ""
+    && img[2].getAttribute('src') === "") {
+    document.querySelectorAll('.slideShow')[0].remove();
 }
-prevImageElement.addEventListener('click', () => {
-    if (currentSlideNumber !==1) {
-        currentSlideNumber--;
-        sliderElement.setAttribute('src', '{{$post->image[currentSlideNumber]}}');
-    }
-});
-nextImageElement.addEventListener('click', () => {
-    if (currentSlideNumber !== imageTotalNumber) {
-        currentSlideNumber++;
-        sliderElement.setAttribute('src', '{{$post->image[currentSlideNumber]}}');
-    }
-});
-
-})
+else if(img[1].getAttribute('src') === ""
+    && img[2].getAttribute('src') === "") {
+    document.querySelector('.slideShow .btn-next').remove();
+    document.querySelector('.slideShow .btn-prev').remove();
+}
+else {
+    slideShow();
+}

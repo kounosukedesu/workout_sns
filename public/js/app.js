@@ -64646,9 +64646,16 @@ module.exports = function(module) {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _calendar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./calendar */ "./resources/js/calendar.js");
+/* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./slider */ "./resources/js/slider.js");
+/* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_slider__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _reply__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./reply */ "./resources/js/reply.js");
+/* harmony import */ var _reply__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_reply__WEBPACK_IMPORTED_MODULE_2__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -64656,11 +64663,8 @@ module.exports = function(module) {
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-
-__webpack_require__(/*! ./calendar */ "./resources/js/calendar.js");
-
-__webpack_require__(/*! ./slider */ "./resources/js/slider.js");
+window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"); // require('./calendar');
+// require('./slider');
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /**
@@ -64673,8 +64677,6 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-/*global Vue*/
-
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -64685,6 +64687,9 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 var app = new Vue({
   el: '#app'
 });
+
+
+
 
 /***/ }),
 
@@ -64862,60 +64867,104 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/reply.js":
+/*!*******************************!*\
+  !*** ./resources/js/reply.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// リプライ表示処理
+var comment = document.querySelectorAll('.fa-comment');
+
+var replyClick = function replyClick(e) {
+  e.preventDefault();
+  var $this = e.target;
+
+  if ($this.nextElementSibling.classList.contains('second_frame')) {
+    $this.nextElementSibling.classList.remove('second_frame');
+    document.querySelectorAll('.reply_form')[0].style.display = 'block';
+  } else {
+    $this.nextElementSibling.classList.add('second_frame');
+    document.querySelectorAll('.reply_form')[0].style.display = 'none';
+  }
+}; // 全てのリプライに対して関数適応
+
+
+var index = 0;
+
+while (index < comment.length) {
+  comment[index].addEventListener('click', function (e) {
+    return replyClick(e);
+  });
+  index++;
+}
+
+/***/ }),
+
 /***/ "./resources/js/slider.js":
 /*!********************************!*\
   !*** ./resources/js/slider.js ***!
   \********************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-// import $ from 'jquery';
-// import 'slick-carousel';
-// $('.slider').slick({
-//     autoplay: false,
-//     infinite: true,
-//     slidesToShow: 1,
-//     slidesToScroll: 1,
-//     prevArrow: '<div class="slick-prev"></div>',//矢印部分PreviewのHTMLを変更
-// 	nextArrow: '<div class="slick-next"></div>',//矢印部分NextのHTMLを変更
-//     dots: true,
-// });
-
-/* global $ */
-
-$(function () {
-  var imageTotalNumber = 3;
-  var sliderElement = document.getElementById('slider');
-  var prevImageElement = document.getElementById('prevImage');
-  var nextImageElement = document.getElementById('nextImage');
-  var currentSlideNumber = 1;
-  sliderElement.setAttribute('src', '{{$post->image1}}');
-
-  for (var i = 0; i < imageTotalNumber; i++) {
-    var liElement = document.createElement('li');
-    liElement.style.backgroundImage = 'url({{$post->image[i + 1]}})';
-    liElement.addEventListener('click', function () {
-      sliderElement.setAttribute('src,', '{{$post->image[i + 1]}}');
-    });
+//画像スライドの処理
+var slideShow = function slideShow() {
+  // 画像1枚以上3枚未満の時の処理
+  for (var itemIndex = 0; itemIndex < 3; itemIndex++) {
+    if (document.querySelectorAll('img')[itemIndex].getAttribute('src') === "") {
+      document.querySelectorAll('.slideShow ul.slider li')[itemIndex].remove();
+    } else {
+      document.querySelectorAll('.slideShow ul.slider li')[itemIndex].style.display = '';
+    }
   }
 
-  prevImageElement.addEventListener('click', function () {
-    if (currentSlideNumber !== 1) {
-      currentSlideNumber--;
-      sliderElement.setAttribute('src', '{{$post->image[currentSlideNumber]}}');
+  var images = document.querySelectorAll('.slideShow ul.slider li'),
+      imagesLength = images.length - 1,
+      next = document.querySelector('.slideShow .btn-next'),
+      prev = document.querySelector('.slideShow .btn-prev');
+  var cnt = 0;
+
+  function showNext() {
+    if (cnt >= imagesLength) {
+      cnt = 0;
+      images.item(cnt).classList.add('slider-item01');
+      images.item(imagesLength).classList.remove('slider-item01');
+    } else {
+      images.item(cnt).classList.remove('slider-item01');
+      images.item(cnt + 1).classList.add('slider-item01');
+      cnt += 1;
     }
-  });
-  nextImageElement.addEventListener('click', function () {
-    if (currentSlideNumber !== imageTotalNumber) {
-      currentSlideNumber++;
-      sliderElement.setAttribute('src', '{{$post->image[currentSlideNumber]}}');
+  }
+
+  function showPrev() {
+    if (cnt === 0) {
+      images.item(cnt).classList.remove('slider-item01');
+      images.item(imagesLength).classList.add('slider-item01');
+      cnt = imagesLength;
+    } else {
+      images.item(cnt).classList.remove('slider-item01');
+      images.item(cnt - 1).classList.add('slider-item01');
+      cnt -= 1;
     }
-  });
-});
+  }
+
+  next.addEventListener('click', showNext);
+  prev.addEventListener('click', showPrev);
+}; // 画像未保存の時の処理
+
+
+var img = document.querySelectorAll('img');
+
+if (img[0].getAttribute('src') === "" && img[1].getAttribute('src') === "" && img[2].getAttribute('src') === "") {
+  document.querySelectorAll('.slideShow')[0].remove();
+} else if (img[1].getAttribute('src') === "" && img[2].getAttribute('src') === "") {
+  document.querySelector('.slideShow .btn-next').remove();
+  document.querySelector('.slideShow .btn-prev').remove();
+} else {
+  slideShow();
+}
 
 /***/ }),
 

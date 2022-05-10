@@ -6,6 +6,7 @@ use App\Post;
 use App\Workout;
 use App\User;
 use App\Like;
+use App\Reply;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,13 +16,15 @@ class PostController extends Controller
 {
     public function index(Post $post, Workout $workout)
     {
-        return view('posts/index') -> with(['posts' => $post -> getPeginateByLimit(), 'workouts' => $workout -> get()]);
-    }   
-    
-    public function show(Post $post, Workout $workout)
-    { 
+        return view('posts/index') -> with(['posts' => $post -> getFollowsPost(), 'workouts' => $workout -> get()]);
+    }
+
+    public function show(Post $post, Workout $workout, Reply $reply)
+    {
         $user = $post -> user() ->first();
-        return view('posts/show') -> with(['post' => $post, 'user' => $user, 'workouts' =>$workout->get()]);
+        $reply = Reply::where('post_id', $post->id)->where('reply_id', null)->get();
+
+        return view('posts/show') -> with(['post' => $post, 'user' => $user, 'workouts' =>$workout->get(), 'replies' => $reply]);
     }
     public function create(Workout $workout)
     {
@@ -33,7 +36,7 @@ class PostController extends Controller
         $input_workouts = $request -> workouts_array;
         $user_id = Auth::id();
         $post -> user_id = $user_id;
-        
+
         // 画像保存処理
         if($request->file('image1')) {
         $image1 = $request->file('image1');
@@ -50,7 +53,7 @@ class PostController extends Controller
         $path = Storage::disk('s3')->put('/', $image3, 'public');
         $post->image3 = Storage::disk('s3')->url($path);;
         }
-        
+
         $post -> fill($input_post) -> save();
         $post -> workouts() -> attach($input_workouts);
         return redirect('/');
@@ -59,7 +62,7 @@ class PostController extends Controller
     {
         $this->middleware(['auth', 'verified']) -> only(['like', 'unlike']);
     }
-    
+
     public function like($id)
     {
         Like::create([
@@ -68,28 +71,25 @@ class PostController extends Controller
         ]);
 
         session() -> flash('success', 'You Liked the Post');
-        
+
         return redirect() -> back();
     }
-    
+
     public function unlike($id)
     {
         $like = Like::where('post_id', $id)->where('user_id', Auth::id())->first();
         $like -> delete();
-        
+
         session() -> flash('success', 'You Unliked the Post');
-        
+
         return redirect() -> back();
     }
-    
-     public function profile(Post $post, Workout $workout)
+    public function profile(Post $post, Workout $workout)
     {
-        $auth = Auth::user()->id;
-        $user = User::where('id', $auth)->get();
-        $posts = Post::where('user_id', $auth)->get();
-        return view('posts/profile') -> with(['posts' => $posts, 'workouts' => $workout->get()]);
+        $post = $post->getPeginateByLimit(Auth::id());
+        return view('posts/profile') -> with(['posts' => $post, 'workouts' => $workout->get()]);
     }
-    
+
     public function json_profile(Post $post, Workout $workout){
         $posts = Post::where('user_id', Auth::id())->get();
         $array = [];
@@ -102,5 +102,11 @@ class PostController extends Controller
             'workouts' => $array
             ]);
     }
-   
+
+    public function delete(Post $post)
+    {
+        $post->delete();
+        return redirect('/posts/profile');
+    }
+
 }

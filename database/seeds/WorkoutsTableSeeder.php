@@ -11,13 +11,13 @@ class WorkoutsTableSeeder extends Seeder
      */
     public function run()
     {
-        $workout_kinds = ["胸トレ","肩トレ","腕トレ","背中トレ","尻トレ","脚トレ","上半身","下半身","その他","食事",];
+        $workout_kinds = ["胸トレ","肩トレ","腕トレ","背中トレ","尻トレ","脚トレ","上半身","下半身","食事","その他",];
         foreach($workout_kinds as $workout_kind) {
-    
+
              DB::table('workouts')->insert([
                     'name'=>$workout_kind,
-            ]); 
-        }    
-        
+            ]);
+        }
+
     }
 }
