@@ -10,7 +10,7 @@ class Workout extends Model
     public function posts() {
         return $this->belongsToMany('App\Post')->withTimestamps();
     }
-     public function getByWorkout(int $limit_count = 5)
+     public function getByWorkout(int $limit_count = 15)
     {
         return $this->posts()->orderBy('updated_at', 'DESC')->paginate($limit_count);
     }

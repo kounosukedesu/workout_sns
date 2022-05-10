@@ -14,10 +14,10 @@ class WorkoutController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Workout $workout)
+    public function index(Workout $workout, User $user)
     {
       $post = $workout->posts()->get();
-      return view('categories/index')->with(['posts' => $workout->getByWorkout(), 'workouts' => $workout->get()]);
+      return view('categories/index')->with(['posts' => $workout->getByWorkout(), 'workouts' => $workout->get(), 'user' => $user]);
     }
 
     /**

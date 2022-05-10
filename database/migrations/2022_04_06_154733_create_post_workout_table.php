@@ -15,9 +15,10 @@ class CreatePostWorkoutTable extends Migration
     {
         Schema::create('post_workout', function (Blueprint $table) {
             $table->Increments('id');
-            $table->timestamps();
             $table->unsignedInteger('post_id');
             $table->unsignedInteger('workout_id');
+            $table->timestamps();
+            $table->softDeletes();
             
             $table->foreign('post_id')->references('id')->on('posts')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->foreign('workout_id')->references('id')->on('workouts')->onUpdate('CASCADE')->onDelete('CASCADE');

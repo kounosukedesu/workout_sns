@@ -81,19 +81,54 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 3:
-/*!*****************************************!*\
-  !*** multi ./resources/js/slick.min.js ***!
-  \*****************************************/
+/***/ "./resources/js/reply.js":
+/*!*******************************!*\
+  !*** ./resources/js/reply.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// リプライ表示処理
+var comment = document.querySelectorAll('.fa-comment');
+
+var replyClick = function replyClick(e) {
+  e.preventDefault();
+  var $this = e.target;
+
+  if ($this.nextElementSibling.classList.contains('second_frame')) {
+    $this.nextElementSibling.classList.remove('second_frame');
+    document.querySelectorAll('.reply_form')[0].style.display = 'block';
+  } else {
+    $this.nextElementSibling.classList.add('second_frame');
+    document.querySelectorAll('.reply_form')[0].style.display = 'none';
+  }
+}; // 全てのリプライに対して関数適応
+
+
+var index = 0;
+
+while (index < comment.length) {
+  comment[index].addEventListener('click', function (e) {
+    return replyClick(e);
+  });
+  index++;
+}
+
+/***/ }),
+
+/***/ 4:
+/*!*************************************!*\
+  !*** multi ./resources/js/reply.js ***!
+  \*************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-!(function webpackMissingModule() { var e = new Error("Cannot find module '/home/ec2-user/environment/blog/resources/js/slick.min.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+module.exports = __webpack_require__(/*! /home/ec2-user/environment/blog/resources/js/reply.js */"./resources/js/reply.js");
 
 
 /***/ })

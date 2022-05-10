@@ -24,6 +24,7 @@ class CreateRepliesTable extends Migration
             $table->integer('post_id')->unsigned();
             $table->integer('reply_id')->unsigned()->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
