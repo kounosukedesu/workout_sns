@@ -7,8 +7,8 @@ use App\Workout;
 use App\User;
 use App\Like;
 use App\Reply;
+use App\Http\Requests\PostRequest;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,7 +30,7 @@ class PostController extends Controller
     {
         return view('posts/create') -> with(['workouts' => $workout -> get()]);
     }
-    public function store(Request $request, Post $post)
+    public function store(PostRequest $request, Post $post)
     {
         $input_post = $request['post'];
         $input_workouts = $request -> workouts_array;

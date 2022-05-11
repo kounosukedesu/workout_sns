@@ -28,14 +28,21 @@ ul {
     margin:0;
     padding: 0;
 }
-
-.username {
+/* profile画面 */
+.profile_head {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-left: 80px;
     margin-right: 80px;
+}
+.name_follow {
+    display: flex;
+    align-items: center;
+}
 
+.follow_text {
+    margin-left: 30px;
 }
 a.create_post {
     color: #000000;
@@ -144,7 +151,7 @@ a.create_post {
     border-bottom: 1px solid;
 }
 
-/*いいねと削除*/
+/*いいね機能と削除機能*/
 .like_deleta {
     display: flex;
     justify-content: space-between;

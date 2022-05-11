@@ -19,7 +19,7 @@ class Post extends Model
     ];
 
     public function getFollowsPost() {
-        return  Post::query()->whereIn('user_id', Auth::user()->follows()->pluck('user_id'))->latest()->paginate(15);
+        return  Post::query()->whereIn('user_id', Auth::user()->follows()->pluck('user_id')->prepend(Auth::user()->id))->latest()->paginate(15);
     }
 
     public function getPeginateByLimit($target)
