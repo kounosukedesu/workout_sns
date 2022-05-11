@@ -11,8 +11,6 @@ class FollowUserController extends Controller
 {
 
     public function store(Post $post, User $user) {
-        // auth()->user()->follows()->attach(User::where('id', $post->user_id)->get() );
-        // dd($user);
         auth()->user()->follows()->attach($user);
         return redirect()->back();
     }

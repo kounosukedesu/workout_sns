@@ -57,9 +57,9 @@
                 <p class="post_text">{{$reply->body}}</p>
             </div>
             <i class="fa-solid fa-comment"></i>
-            <!-- リプライ返信 -->
+            <!-- リプライ返信一覧と作成フォーム -->
             <div class="second_reply_frame">
-                <!-- リプライへの返信 -->
+                <!-- リプライへの返信一覧 -->
                 @foreach($second_replies as $second_reply)
                 <div class="second_reply">
                     <p class="second_reply_name">[{{$second_reply->user->name}}]</p>
@@ -71,6 +71,7 @@
                     @csrf
                     <div class="replies">
                         <textarea class="reply_textarea" name="reply[body]" placeholder="コメントへの返信をする"></textarea>
+                        <p class="title__error" style="color:red">{{ $errors->first('reply.body') }}</p>
                         <input type='hidden' value="{{Auth::id()}}" name="reply[user_id]" />
                         <input type='hidden' value="{{$post->id}}" name="reply[post_id]" />
                         <input type='hidden' value="{{$reply->id}}" name="reply[reply_id]" />
@@ -85,6 +86,7 @@
             @csrf
             <div class="replies">
                 <textarea class="reply_textarea" name="reply[body]" placeholder="リアクションをする"></textarea>
+                <p class="title__error" style="color:red">{{ $errors->first('reply.body') }}</p>
                 <input type='hidden' value="{{Auth::id()}}" name="reply[user_id]" />
                 <input type='hidden' value="{{$post->id}}" name="reply[post_id]" />
             </div>

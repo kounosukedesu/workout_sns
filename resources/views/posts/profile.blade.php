@@ -11,8 +11,12 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="username">
-    <h1>{{Auth::user()->name}}</h1>
+<div class="profile_head">
+    <div class="name_follow">
+        <h1>{{Auth::user()->name}}</h1>
+        <h5 class="follow_text">フォロー{{auth()->user()->follows()->count()}}</h3>
+        <h5 class="follow_text">フォロワー{{auth()->user()->followers()->count()}}</h3>
+    </div>
     <a href="/posts/create" class="create_post">投稿する</a>
 </div>
 

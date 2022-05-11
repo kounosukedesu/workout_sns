@@ -14,7 +14,8 @@
             @csrf
             <div class="body">
                 <h2>Body</h2>
-                <textarea class="form frame" name="post[body]" placeholder="トレーニング内容を記録する"></textarea>
+                <textarea class="form frame" name="post[body]" placeholder="トレーニング内容を記録する" value="{{old('post[body]')}}"></textarea>
+                <p class="body__error" style="color:red">{{ $errors->first('post.body') }}</p>
                 <input type='hidden' value="{{Auth::id()}}" name="post[user_id]"/>
             </div>
             <div class="input">

@@ -17,25 +17,31 @@
         <div class="post">
             <div class="post_top">
                 <a href="/posts/{{$post->id}}">
-                    <h2>{{$post->user->name}}</h2>
+                    <div class="name_follow">
+                        <h2>{{$post->user->name}}</h2>
+                        @if(Auth::user()->follows()->where('user_id', $post->user->id)->exists())
+                            <!-- unfollow -->
+                            <div class="follow follow_text">
+                                <form action="/users/unfollow/{{$post->user->id}}" method="POST">
+                                    @csrf
+                                    <i class="fa-solid fa-user"></i>
+                                    <input type="submit" value="フォロー中">
+                                </form>
+                            </div>
+                        @elseif(Auth::user()->id == $post->user_id)
+
+                        @else
+                            <!--follow-->
+                            <div class="follow follow_text">
+                                <form action="/users/follow/{{$post->user->id}}" method="POST">
+                                    @csrf
+                                    <i class="fa-solid fa-user-plus"></i>
+                                    <input type="submit" value="フォローする">
+                                </form>
+                            </div>
+                        @endif
+                    </div>
                 </a>
-                <!--follow-->
-                <div class="follow">
-                    <form action="/users/follow/{{$post->user->id}}" method="POST">
-                        @csrf
-                        <i class="fa-solid fa-user-plus"></i>
-                        <input type="submit" value="フォローする">
-                    </form>
-                </div>
-                <!-- unfollow -->
-                <div class="follow">
-                    <form action="/users/unfollow/{{$post->user->id}}" method="POST">
-                        @csrf
-                        <i class="fa-solid fa-user"></i>
-                        <input type="submit" value="フォロー中:{{auth()->user()->follows()->count()}}">
-                    </form>
-                </div>
-                
                 @foreach($post->workouts as $workout)
                 <a href="/categories/{{$workout->id}}" class="workout">
                     <p class="workout_font">{{$workout->name}}</p>
